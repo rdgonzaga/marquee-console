@@ -45,10 +45,10 @@ Three threads share one `Marquee` struct, protected by a single mutex:
 | Marquee | every `set_speed` ms | moves the art one step |
 | Render | every 16 ms (~60 fps) | draws the whole screen in one write |
 
-Refresh is deliberately separate from marquee speed, so typing stays instant even
-at `set_speed 2000`. Each frame is built into one string and written in a single
-call, which is what avoids flicker and tearing. `timeBeginPeriod(1)` is needed
-because Windows' default ~15 ms timer would otherwise cap the refresh at ~33 fps.
+Refresh is kept separate from marquee speed so typing stays instant even at
+`set_speed 2000`. Each frame is built into one string and written in a single
+call, otherwise it flickers and tears. `timeBeginPeriod(1)` is there because
+Windows' default ~15 ms timer would cap the refresh at ~33 fps.
 
 ## Files
 

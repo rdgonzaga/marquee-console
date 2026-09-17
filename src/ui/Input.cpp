@@ -24,7 +24,6 @@ constexpr int KEY_PAGE_UP   = 73;
 constexpr int KEY_PAGE_DOWN = 81;
 constexpr int SCROLL_STEP   = 5;
 
-// Finishes a command name if exactly one matches what's typed so far.
 void autocomplete(Marquee& m) {
     if (m.input.find(' ') != std::string::npos) return;
     const commands::Command* match = nullptr;
@@ -91,7 +90,7 @@ void handleKey(Marquee& m, int key) {
 
 }
 
-// Polls instead of using getline, so the marquee keeps animating while typing.
+// getline would block here and freeze the marquee, so poll instead
 void loop(Marquee& m) {
     while (!m.quit) {
         while (_kbhit() && !m.quit) handleKey(m, _getch());

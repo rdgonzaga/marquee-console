@@ -16,7 +16,7 @@ struct LogLine {
     std::string text;
 };
 
-// Shared by the three threads. Everything except `quit` needs `mtx` held.
+// Shared by all three threads. Lock mtx before touching anything but quit.
 struct Marquee {
     std::mutex mtx;
     std::condition_variable wake;
@@ -42,9 +42,8 @@ struct Marquee {
     int fps = 0;
 };
 
-// Moves the art one step every speedMs until quit. Runs on its own thread.
 void marqueeLoop(Marquee& marquee);
 
-// Both need marquee.mtx held.
+// both need mtx held
 void setText(Marquee& marquee, const std::string& text);
 void addLog(Marquee& marquee, LogKind kind, const std::string& text);

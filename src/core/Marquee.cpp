@@ -7,7 +7,6 @@
 
 namespace {
 
-// Bounces diagonally, flipping direction at the edges.
 void stepBounce(Marquee& m) {
     int maxX = std::max(0, m.boxWidth - m.artWidth);
     int maxY = std::max(0, m.boxHeight - static_cast<int>(m.art.size()));
@@ -26,7 +25,6 @@ void stepBounce(Marquee& m) {
     }
 }
 
-// Slides left like a ticker and re-enters from the right.
 void stepScroll(Marquee& m) {
     m.y = std::max(0, m.boxHeight - static_cast<int>(m.art.size())) / 2;
     m.x -= 1;
@@ -42,7 +40,7 @@ void marqueeLoop(Marquee& m) {
             if (config::BOUNCE) stepBounce(m);
             else stepScroll(m);
         }
-        // releases the lock while sleeping; set_speed and exit wake it early
+        // drops the lock while asleep, and set_speed or exit wakes it early
         m.wake.wait_for(lock, std::chrono::milliseconds(m.speedMs));
     }
 }

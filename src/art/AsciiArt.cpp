@@ -10,7 +10,7 @@ namespace {
 using Glyph = std::array<const char*, GLYPH_HEIGHT>;
 
 // One entry per printable character, starting at space (ASCII 32).
-// Paste over any row to redraw a letter; keep a glyph's rows the same width.
+// Keep a glyph's six rows the same width as each other or it skews.
 const Glyph GLYPHS[] = {
     {"  ", "  ", "  ", "  ", "  ", "  "},  // space
     {" __ ", "|  |", "|  |", "|__|", "|__|", "    "},  // !
@@ -135,7 +135,6 @@ std::vector<std::string> split(const char* art) {
     return rows;
 }
 
-// Paste your own art here. The logo shows above the marquee box.
 const char* const LOGO = R"(_________   _________________ _____________________ ______________.___.
 \_   ___ \ /   _____/\_____  \\______   \_   _____//   _____/\__  |   |
 /    \  \/ \_____  \  /   |   \|     ___/|    __)_ \_____  \  /   |   |

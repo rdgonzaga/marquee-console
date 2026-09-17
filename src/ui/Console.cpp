@@ -28,7 +28,7 @@ void init(std::atomic<bool>& quit) {
     quitFlag = &quit;
     SetConsoleCtrlHandler(onCtrlEvent, TRUE);
 
-    // the default ~15ms timer would cap the frame rate at about 33 fps
+    // without this the default ~15ms timer caps us at about 33 fps
     timeBeginPeriod(1);
 
     originalCodePage = GetConsoleOutputCP();

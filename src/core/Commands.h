@@ -14,10 +14,9 @@ struct Command {
     void (*run)(Marquee& marquee, const std::string& args);
 };
 
-// The whole command set. `help` prints itself from this table.
+// help prints itself from this table, so it can't go stale
 const std::vector<Command>& all();
 
-// Splits a typed line into command plus arguments and runs it.
 void execute(Marquee& marquee, const std::string& line);
 
 }

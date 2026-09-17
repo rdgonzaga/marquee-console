@@ -3,7 +3,7 @@
 #include <atomic>
 #include <string>
 
-// Everything that talks to the Windows console directly.
+// The only file that talks to Windows directly.
 namespace console {
 
 struct Size {
@@ -11,16 +11,14 @@ struct Size {
     int height;
 };
 
-// Turns on colors, hides the cursor, and routes Ctrl+C into `quit`.
 void init(std::atomic<bool>& quit);
 void restore();
 
 Size size();
 
-// Writes in one call, which is what keeps frames from tearing.
+// one call per frame, otherwise it tears
 void write(const std::string& text);
 
-// ANSI color codes, so the rest of the program never spells them out.
 std::string fg(int color);
 std::string bg(int color);
 

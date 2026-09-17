@@ -6,9 +6,8 @@
 #include "ui/Input.h"
 #include "ui/Render.h"
 
-// Three threads run at once: this one reads the keyboard and runs commands,
-// one moves the marquee, one redraws the screen. They share `marquee`,
-// protected by the mutex inside it.
+// Three threads: this one reads keys, one moves the marquee, one redraws.
+// They all share the Marquee below, guarded by the mutex inside it.
 int main() {
     Marquee marquee;
 
@@ -24,7 +23,7 @@ int main() {
 
     input::loop(marquee);
 
-    // taking the lock once guarantees the marquee thread is waiting when notified
+    // grabbing the lock first means the marquee thread is parked on the wait
     marquee.quit = true;
     { std::lock_guard<std::mutex> lock(marquee.mtx); }
     marquee.wake.notify_all();

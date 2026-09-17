@@ -18,7 +18,7 @@ using console::fg;
 using console::BOLD;
 using console::RESET;
 
-// One screen line, clipped to the window width. Color codes take no width.
+// A screen line that stops at the window edge. Color codes take no width.
 class Line {
 public:
     explicit Line(int maxWidth) : maxWidth_(maxWidth) {}
@@ -62,7 +62,6 @@ void drawHeader(int width, std::vector<std::string>& lines) {
     size_t logoWidth = 0;
     for (const std::string& row : logo) logoWidth = std::max(logoWidth, row.size());
 
-    // logo on the left, group info on the right
     for (size_t r = 0; r < std::max(logo.size(), info.size()); ++r) {
         std::string logoRow = r < logo.size() ? logo[r] : "";
         logoRow.resize(logoWidth, ' ');
@@ -205,7 +204,7 @@ void loop(Marquee& m) {
             frame = "\x1b[2J" + frame;
             lastSize = size;
         }
-        // one write per frame, and skip it entirely if nothing changed
+        // nothing changed, so don't write at all
         if (frame != lastFrame) {
             console::write(frame);
             lastFrame = std::move(frame);
