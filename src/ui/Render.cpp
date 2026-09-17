@@ -18,6 +18,15 @@ using console::fg;
 using console::BOLD;
 using console::RESET;
 
+// Counts columns, not bytes: one UTF-8 character can be several bytes.
+int columns(const std::string& s) {
+    int n = 0;
+    for (char c : s) {
+        if ((static_cast<unsigned char>(c) & 0xC0) != 0x80) ++n;
+    }
+    return n;
+}
+
 // A screen line that stops at the window edge. Color codes take no width.
 class Line {
 public:
@@ -59,12 +68,12 @@ void drawHeader(int width, std::vector<std::string>& lines) {
     static const std::vector<std::string> info = ascii::split(ascii::INFO);
     const int shades = static_cast<int>(sizeof(config::LOGO_GRADIENT) / sizeof(config::LOGO_GRADIENT[0]));
 
-    size_t logoWidth = 0;
-    for (const std::string& row : logo) logoWidth = std::max(logoWidth, row.size());
+    int logoWidth = 0;
+    for (const std::string& row : logo) logoWidth = std::max(logoWidth, columns(row));
 
     for (size_t r = 0; r < std::max(logo.size(), info.size()); ++r) {
         std::string logoRow = r < logo.size() ? logo[r] : "";
-        logoRow.resize(logoWidth, ' ');
+        logoRow.append(logoWidth - columns(logoRow), ' ');
         int shade = logo.empty() ? 0 : std::min(shades - 1, static_cast<int>(r * shades / logo.size()));
 
         Line line(width);
