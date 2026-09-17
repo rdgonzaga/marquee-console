@@ -43,6 +43,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -61,18 +62,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\AsciiArt.cpp" />
-    <ClCompile Include="src\Commands.cpp" />
-    <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Marquee.cpp" />
+    <ClCompile Include="src\art\AsciiArt.cpp" />
+    <ClCompile Include="src\core\Commands.cpp" />
+    <ClCompile Include="src\core\Marquee.cpp" />
+    <ClCompile Include="src\ui\Console.cpp" />
+    <ClCompile Include="src\ui\Input.cpp" />
+    <ClCompile Include="src\ui\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\AsciiArt.h" />
-    <ClInclude Include="src\Commands.h" />
     <ClInclude Include="src\Config.h" />
-    <ClInclude Include="src\Display.h" />
-    <ClInclude Include="src\Marquee.h" />
+    <ClInclude Include="src\art\AsciiArt.h" />
+    <ClInclude Include="src\core\Commands.h" />
+    <ClInclude Include="src\core\Marquee.h" />
+    <ClInclude Include="src\ui\Console.h" />
+    <ClInclude Include="src\ui\Input.h" />
+    <ClInclude Include="src\ui\Render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

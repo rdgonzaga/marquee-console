@@ -1,8 +1,10 @@
 #include <thread>
 
-#include "Commands.h"
-#include "Display.h"
-#include "Marquee.h"
+#include "core/Commands.h"
+#include "core/Marquee.h"
+#include "ui/Console.h"
+#include "ui/Input.h"
+#include "ui/Render.h"
 
 // Three threads run at once: this one reads the keyboard and runs commands,
 // one moves the marquee, one redraws the screen. They share `marquee`,
@@ -10,7 +12,7 @@
 int main() {
     Marquee marquee;
 
-    display::init(marquee.quit);
+    console::init(marquee.quit);
     {
         std::lock_guard<std::mutex> lock(marquee.mtx);
         setText(marquee, config::DEFAULT_TEXT);
@@ -18,9 +20,9 @@ int main() {
     }
 
     std::thread marqueeThread(marqueeLoop, std::ref(marquee));
-    std::thread renderThread(display::renderLoop, std::ref(marquee));
+    std::thread renderThread(render::loop, std::ref(marquee));
 
-    commands::inputLoop(marquee);
+    input::loop(marquee);
 
     // taking the lock once guarantees the marquee thread is waiting when notified
     marquee.quit = true;
@@ -29,6 +31,6 @@ int main() {
     marqueeThread.join();
     renderThread.join();
 
-    display::restore();
+    console::restore();
     return 0;
 }

@@ -1,9 +1,9 @@
-#include "Marquee.h"
+#include "core/Marquee.h"
 
 #include <algorithm>
 #include <chrono>
 
-#include "AsciiArt.h"
+#include "art/AsciiArt.h"
 
 namespace {
 

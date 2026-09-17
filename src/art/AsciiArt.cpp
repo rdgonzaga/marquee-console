@@ -1,4 +1,4 @@
-#include "AsciiArt.h"
+#include "art/AsciiArt.h"
 
 #include <array>
 #include <sstream>

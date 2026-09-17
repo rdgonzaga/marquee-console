@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "Marquee.h"
+#include "core/Marquee.h"
 
 namespace commands {
 
@@ -14,11 +14,10 @@ struct Command {
     void (*run)(Marquee& marquee, const std::string& args);
 };
 
+// The whole command set. `help` prints itself from this table.
 const std::vector<Command>& all();
 
-// Reads the keyboard and runs commands until quit. Runs on the main thread.
-void inputLoop(Marquee& marquee);
-
+// Splits a typed line into command plus arguments and runs it.
 void execute(Marquee& marquee, const std::string& line);
 
 }

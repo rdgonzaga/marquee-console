@@ -53,17 +53,19 @@ because Windows' default ~15 ms timer would otherwise cap the refresh at ~33 fps
 ## Files
 
 ```
-src/main.cpp      starts the three threads
-src/Config.h      refresh rate, polling rate, default speed, colors, box size
-src/AsciiArt.*    the letter shapes, the logo and the group info (plain text)
-src/Marquee.*     shared state and the bounce/scroll motion
-src/Display.*     console setup and screen drawing
-src/Commands.*    keyboard polling and the command interpreter
+src/main.cpp        starts the three threads
+src/Config.h        refresh rate, polling rate, default speed, colors, box size
+src/core/Marquee.*  shared state and the bounce/scroll motion
+src/core/Commands.* the six commands and the interpreter
+src/ui/Console.*    Windows console setup and raw writes
+src/ui/Render.*     builds and draws each frame
+src/ui/Input.*      keyboard polling, history, autocomplete
+src/art/AsciiArt.*  letter shapes, logo and group info
 ```
 
 ## Changing the ASCII art
 
-All of it is plain text in `src/AsciiArt.cpp`, safe to paste over:
+All of it is plain text in `src/art/AsciiArt.cpp`, safe to paste over:
 
 - `GLYPHS` is one row per character, starting at space. Keep a character's six
   rows the same width as each other.

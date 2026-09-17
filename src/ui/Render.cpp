@@ -1,4 +1,4 @@
-#include "Display.h"
+#include "ui/Render.h"
 
 #include <algorithm>
 #include <chrono>
@@ -6,50 +6,17 @@
 #include <thread>
 #include <vector>
 
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <mmsystem.h>
+#include "art/AsciiArt.h"
+#include "ui/Console.h"
 
-#pragma comment(lib, "winmm.lib")
-
-#include "AsciiArt.h"
-
-namespace display {
+namespace render {
 
 namespace {
 
-std::atomic<bool>* quitFlag = nullptr;
-DWORD originalMode = 0;
-UINT originalCodePage = 0;
-
-BOOL WINAPI onCtrlEvent(DWORD) {
-    if (quitFlag) *quitFlag = true;
-    return TRUE;
-}
-
-void write(const std::string& text) {
-    DWORD written = 0;
-    WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), text.data(), static_cast<DWORD>(text.size()), &written, nullptr);
-}
-
-struct Size {
-    int width;
-    int height;
-};
-
-Size consoleSize() {
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    if (!GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info)) return {120, 30};
-    return {info.srWindow.Right - info.srWindow.Left + 1, info.srWindow.Bottom - info.srWindow.Top + 1};
-}
-
-std::string fg(int color) { return "\x1b[38;5;" + std::to_string(color) + "m"; }
-std::string bg(int color) { return "\x1b[48;5;" + std::to_string(color) + "m"; }
-const char* const RESET = "\x1b[0m";
-const char* const BOLD  = "\x1b[1m";
+using console::bg;
+using console::fg;
+using console::BOLD;
+using console::RESET;
 
 // One screen line, clipped to the window width. Color codes take no width.
 class Line {
@@ -215,41 +182,16 @@ std::string buildFrame(Marquee& m, int width, int height, bool cursorOn) {
 
 }
 
-void init(std::atomic<bool>& quit) {
-    quitFlag = &quit;
-    SetConsoleCtrlHandler(onCtrlEvent, TRUE);
-
-    // the default ~15ms timer would cap the frame rate at about 33 fps
-    timeBeginPeriod(1);
-
-    originalCodePage = GetConsoleOutputCP();
-    SetConsoleOutputCP(CP_UTF8);
-
-    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
-    GetConsoleMode(out, &originalMode);
-    SetConsoleMode(out, originalMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING | ENABLE_PROCESSED_OUTPUT);
-
-    // separate full-screen buffer, hidden cursor, cleared screen
-    write("\x1b[?1049h\x1b[?25l\x1b[2J");
-}
-
-void restore() {
-    write("\x1b[0m\x1b[?25h\x1b[?1049l");
-    SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), originalMode);
-    SetConsoleOutputCP(originalCodePage);
-    timeEndPeriod(1);
-}
-
-void renderLoop(Marquee& m) {
+void loop(Marquee& m) {
     using clock = std::chrono::steady_clock;
     std::string lastFrame;
-    Size lastSize{0, 0};
+    console::Size lastSize{0, 0};
     int frames = 0;
     auto secondStart = clock::now();
 
     while (!m.quit) {
         auto frameStart = clock::now();
-        Size size = consoleSize();
+        console::Size size = console::size();
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(frameStart.time_since_epoch()).count();
         bool cursorOn = (ms / config::CURSOR_BLINK_MS) % 2 == 0;
 
@@ -265,7 +207,7 @@ void renderLoop(Marquee& m) {
         }
         // one write per frame, and skip it entirely if nothing changed
         if (frame != lastFrame) {
-            write(frame);
+            console::write(frame);
             lastFrame = std::move(frame);
         }
 
