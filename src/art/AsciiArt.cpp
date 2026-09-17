@@ -10,6 +10,7 @@ namespace {
 using Glyph = std::array<const char*, GLYPH_HEIGHT>;
 
 // One entry per printable character, starting at space (ASCII 32).
+// Shapes come from the FIGlet font rectangles.flf by David Villegas (1994).
 // Keep a glyph's six rows the same width as each other or it skews.
 const Glyph GLYPHS[] = {
     {"  ", "  ", "  ", "  ", "  ", "  "},  // space
@@ -135,6 +136,7 @@ std::vector<std::string> split(const char* art) {
     return rows;
 }
 
+// Rendered with the FIGlet font graffiti.flf by Leigh Purdie (1994).
 const char* const LOGO = R"(_________   _________________ _____________________ ______________.___.
 \_   ___ \ /   _____/\_____  \\______   \_   _____//   _____/\__  |   |
 /    \  \/ \_____  \  /   |   \|     ___/|    __)_ \_____  \  /   |   |
