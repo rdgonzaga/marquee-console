@@ -147,11 +147,11 @@ const char* const LOGO = R"(  █████████   ██████�
 
 const char* const INFO = R"(Welcome to CSOPESY!
 
-Group 6, S01
-  Gonzaga, Rainer
-  Gonzales, Aaron James
-  Ramos, Richmond Jose
-  Yasumuro, Mariel
+Group developer: (Group 6, S01)
+Gonzaga, Rainer
+Gonzales, Aaron James
+Ramos, Richmond Jose
+Yasumuro, Mariel
 
 Version date: 2026-09-18)";
 

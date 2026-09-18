@@ -31,5 +31,6 @@ int main() {
     renderThread.join();
 
     console::restore();
+    console::write("Terminating console...\n");
     return 0;
 }

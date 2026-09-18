@@ -20,13 +20,7 @@ std::string toLower(std::string s) {
 
 void cmdHelp(Marquee& m, const std::string&) {
     std::lock_guard<std::mutex> lock(m.mtx);
-    addLog(m, LogKind::Info, "Available commands:");
-    for (const Command& c : all()) {
-        std::string usage = c.usage;
-        usage.resize(std::max<size_t>(usage.size() + 2, 20), ' ');
-        addLog(m, LogKind::Info, "  " + usage + c.description);
-    }
-    addLog(m, LogKind::Info, "Keys: Up/Down history, Tab complete, PgUp/PgDn scroll, Esc clear line");
+    for (const Command& c : all()) addLog(m, LogKind::Info, std::string(c.name) + " - " + c.description);
 }
 
 void cmdStartMarquee(Marquee& m, const std::string&) {
@@ -60,7 +54,7 @@ void cmdSetText(Marquee& m, const std::string& args) {
         return;
     }
     setText(m, text);
-    addLog(m, LogKind::Info, "Marquee text set to \"" + text + "\".");
+    addLog(m, LogKind::Info, "Text saved for marquee: " + text);
 }
 
 void cmdSetSpeed(Marquee& m, const std::string& args) {
@@ -87,12 +81,12 @@ void cmdExit(Marquee& m, const std::string&) {
 
 const std::vector<Command>& all() {
     static const std::vector<Command> table = {
-        {"help",          "help",            "Display the commands and their descriptions", cmdHelp},
-        {"start_marquee", "start_marquee",   "Start the marquee animation",                 cmdStartMarquee},
-        {"stop_marquee",  "stop_marquee",    "Stop the marquee animation",                  cmdStopMarquee},
-        {"set_text",      "set_text <text>", "Display the given text as a marquee",         cmdSetText},
-        {"set_speed",     "set_speed <ms>",  "Set the animation refresh in milliseconds",   cmdSetSpeed},
-        {"exit",          "exit",            "Terminate the console",                       cmdExit},
+        {"help",          "help",            "displays the commands and its description",          cmdHelp},
+        {"start_marquee", "start_marquee",   "starts the marquee \"animation\"",                   cmdStartMarquee},
+        {"stop_marquee",  "stop_marquee",    "stops the marquee \"animation\"",                    cmdStopMarquee},
+        {"set_text",      "set_text <text>", "accepts a text input and displays it as a marquee",  cmdSetText},
+        {"set_speed",     "set_speed <ms>",  "sets the marquee animation refresh in milliseconds", cmdSetSpeed},
+        {"exit",          "exit",            "terminates the console",                             cmdExit},
     };
     return table;
 }
@@ -113,7 +107,7 @@ void execute(Marquee& m, const std::string& line) {
     }
 
     std::lock_guard<std::mutex> lock(m.mtx);
-    addLog(m, LogKind::Error, "Unknown command '" + name + "'. Type 'help' to see available commands.");
+    addLog(m, LogKind::Error, "Error: '" + name + "' is not a recognized command. Type 'help' for the list.");
 }
 
 }

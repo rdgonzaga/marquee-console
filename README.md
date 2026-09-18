@@ -25,12 +25,12 @@ in, so the .exe works on its own from any folder.
 
 | Command | Description |
 | --- | --- |
-| `help` | display the commands and their descriptions |
-| `start_marquee` | start the marquee animation |
-| `stop_marquee` | stop the marquee animation |
-| `set_text <text>` | display the given text as a marquee |
-| `set_speed <ms>` | set the animation refresh in milliseconds (1-10000) |
-| `exit` | terminate the console |
+| `help` | displays the commands and its description |
+| `start_marquee` | starts the marquee "animation" |
+| `stop_marquee` | stops the marquee "animation" |
+| `set_text <text>` | accepts a text input and displays it as a marquee |
+| `set_speed <ms>` | sets the marquee animation refresh in milliseconds (1-10000) |
+| `exit` | terminates the console |
 
 Extra keys: Up/Down for history, Tab to autocomplete, PgUp/PgDn to scroll output,
 Esc to clear the line.
