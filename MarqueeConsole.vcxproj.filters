@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="core"><UniqueIdentifier>{1a1f0b10-0001-4000-9000-000000000001}</UniqueIdentifier></Filter>
+    <Filter Include="ui"><UniqueIdentifier>{1a1f0b10-0002-4000-9000-000000000002}</UniqueIdentifier></Filter>
+    <Filter Include="art"><UniqueIdentifier>{1a1f0b10-0003-4000-9000-000000000003}</UniqueIdentifier></Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\art\AsciiArt.cpp"><Filter>art</Filter></ClCompile>
+    <ClCompile Include="src\core\Commands.cpp"><Filter>core</Filter></ClCompile>
+    <ClCompile Include="src\core\Marquee.cpp"><Filter>core</Filter></ClCompile>
+    <ClCompile Include="src\ui\Console.cpp"><Filter>ui</Filter></ClCompile>
+    <ClCompile Include="src\ui\Input.cpp"><Filter>ui</Filter></ClCompile>
+    <ClCompile Include="src\ui\Render.cpp"><Filter>ui</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Config.h" />
+    <ClInclude Include="src\art\AsciiArt.h"><Filter>art</Filter></ClInclude>
+    <ClInclude Include="src\core\Commands.h"><Filter>core</Filter></ClInclude>
+    <ClInclude Include="src\core\Marquee.h"><Filter>core</Filter></ClInclude>
+    <ClInclude Include="src\ui\Console.h"><Filter>ui</Filter></ClInclude>
+    <ClInclude Include="src\ui\Input.h"><Filter>ui</Filter></ClInclude>
+    <ClInclude Include="src\ui\Render.h"><Filter>ui</Filter></ClInclude>
+  </ItemGroup>
+</Project>
