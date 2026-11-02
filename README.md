@@ -5,7 +5,7 @@
 An OS emulator console with a command interpreter and an animated ASCII marquee.
 The marquee keeps moving while you type.
 
-![Marquee console running](docs/screenshot.png)
+![Marquee console running](docs/marquee.png)
 
 ## Members
 
