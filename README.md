@@ -1,7 +1,5 @@
 # CSOPESY MO3: Marquee Console
 
-> **Archived.** This was MO3 for CSOPESY (DLSU, 2026). It's kept read-only for reference and isn't maintained.
-
 An OS emulator console with a command interpreter and an animated ASCII marquee.
 The marquee keeps moving while you type.
 
